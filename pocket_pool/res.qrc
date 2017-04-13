@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/new/balls">
+        <file>whiteBall.png</file>
+        <file>1.png</file>
+    </qresource>
+</RCC>
