@@ -25,11 +25,19 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += main.cpp \
     game.cpp \
-    whiteball.cpp
+    table.cpp \
+    cuetrack.cpp \
+    score.cpp \
+    ball.cpp \
+    pocket.cpp
 
 HEADERS  += \
     game.h \
-    whiteball.h
+    table.h \
+    cuetrack.h \
+    score.h \
+    ball.h \
+    pocket.h
 
 FORMS    +=
 

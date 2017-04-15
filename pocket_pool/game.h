@@ -2,7 +2,8 @@
 #define GAME_H
 
 #include <QGraphicsView>
-#include "whiteball.h"
+#include "ball.h"
+#include "table.h"
 #include <QVector>
 #include <QTimer>
 #include <QObject>
@@ -16,12 +17,17 @@ class Game : public QGraphicsView
 public:
     Game();
     QGraphicsScene * scene;
-    QVector<whiteBall*> ball;
+    QVector<Ball*> balls;
+    //QVector<pockets*> pocket;
     QList<QPair<int, int>> position;
+    Table *table;
 private:
     QTimer * timer;
+    void resetBalls();
+    void gameLogic();
+    void scoreChangeHandler(int ballNumber);
 private slots:
-    void update();
+    void ballMoveHandler();
 };
 
 #endif // GAME_H

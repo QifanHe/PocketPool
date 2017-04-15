@@ -5,17 +5,51 @@ Game::Game()
 {
     scene = new QGraphicsScene();
     scene->setSceneRect(0,0,480,272);
-
-    setBackgroundBrush(QBrush(Qt::green));
+    scene->setBackgroundBrush(QBrush(Qt::green));
     setScene(scene);
-
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    setFixedSize(480,272);
+    //setFixedSize(480,272);
+
+    // Set the table
+    table = new Table();
+    table->setPos(0, 25);
+    scene->addItem(table);
 
 
-    ball.resize(11);
-    position.append(qMakePair(30, 150));
+    // Set Balls
+    balls.resize(11);
+    resetBalls();
+    balls[0]->setState(0, 5);
+
+    timer = new QTimer(this);
+    timer->start(500);
+    connect(timer, SIGNAL(timeout()),
+            this, SLOT(ballMoveHandler()));
+
+
+}
+
+void Game::gameLogic()
+{
+    // do something
+}
+
+void Game::scoreChangeHandler(int ballNumber)
+{
+    // do something
+}
+
+void Game::ballMoveHandler()
+{
+    for (int i = 0; i < balls.size(); i++){
+        balls[i]->move();
+    }
+}
+
+void Game::resetBalls()
+{
+    position.append(qMakePair(25, 130));
     position.append(qMakePair(250, 130));
     position.append(qMakePair(270, 120));
     position.append(qMakePair(270, 140));
@@ -27,25 +61,10 @@ Game::Game()
     position.append(qMakePair(310, 140));
     position.append(qMakePair(310, 160));
 
-    for (int i = 0; i < ball.size(); i++){
-        ball[i] = new whiteBall(i);
-        ball[i]->setPos(position[i].first, position[i].second);
-        ball[i]->setState(0, 0);
-        scene->addItem(ball[i]);
-    }
-
-    ball[0]->setState(6.1, 0.2);
-
-    timer = new QTimer(this);
-    timer->start(100);
-    connect(timer, SIGNAL(timeout()), this, SLOT(update()));
-
-
-}
-
-void Game::update()
-{
-    for (int i = 0; i < ball.size(); i++){
-        ball[i]->move();
+    for (int i = 0; i < balls.size(); i++){
+        balls[i] = new Ball(i);
+        balls[i]->setPos(position[i].first, position[i].second);
+        balls[i]->setState(0, 0);
+        scene->addItem(balls[i]);
     }
 }
