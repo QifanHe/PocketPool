@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/new/balls">
+        <file>whiteBall.png</file>
+        <file>1.png</file>
+        <file>billardTable.png</file>
+    </qresource>
+</RCC>
