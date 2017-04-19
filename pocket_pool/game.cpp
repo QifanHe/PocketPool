@@ -24,10 +24,21 @@ Game::Game()
     table->setPos(0, 25);
     scene->addItem(table);
 
+    // set Holes
+    holes.resize(6);
+    for (int i = 0; i < holes.size(); i++){
+        holes[i] = new Holes(i);
+        scene->addItem(holes[i]);
+    }
+
     // Set Balls
     balls.resize(11);
-
-
+    // set Pockets
+    pockets.resize(12);
+    for (int i = 0; i < pockets.size(); i++){
+        pockets[i] = new Pocket(i);
+        scene->addItem(pockets[i]);
+    }
 
 
     timer = new QTimer(this);
@@ -45,7 +56,8 @@ void Game::gameLogic()
         timer->stop();
         qDebug()<<"hello";
         resetBalls();
-        state = 1;
+        balls[0]->setState(5,0);
+        state = 2;
         timer->start(50);
         return;
     }
@@ -84,20 +96,21 @@ void Game::ballMoveHandler()
 {
     int tmp = 0;
     for (int i = 0; i < balls.size(); i++){
-        balls[i]->move();
+        if (balls[i]->inPocket == 0)
+            balls[i]->move();
     }
     for (int i = 0; i < balls.size(); i++){
         tmp += balls[i]->stop;
     }
     if (tmp == balls.size()){
         qDebug()<<"stopped!!!";
-        state = 1;
+        //state = 1;
     }
 }
 
 void Game::resetBalls()
 {
-    position.append(qMakePair(25, 130));
+    position.append(qMakePair(200, 130));
     position.append(qMakePair(250, 130));
     position.append(qMakePair(270, 120));
     position.append(qMakePair(270, 140));
@@ -115,4 +128,5 @@ void Game::resetBalls()
         balls[i]->setState(0, 0);
         scene->addItem(balls[i]);
     }
+
 }

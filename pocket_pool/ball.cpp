@@ -1,5 +1,7 @@
 #include "ball.h"
 #include "game.h"
+#include "pocket.h"
+#include "holes.h"
 #include <QTimer>
 #include <QList>
 #include <QDebug>
@@ -29,6 +31,8 @@ Ball::Ball(int num)
         colliding[i] = 0;
     }
     stop = 0;
+    pocketCounter = 0;
+    inPocket = 0;
 }
 
 
@@ -53,6 +57,9 @@ void Ball::move()
             colliding[i] --;
         }
     }
+
+    if (pocketCounter > 0)
+        pocketCounter --;
 
     QList<QGraphicsItem *>colliding_items = collidingItems();
     for (int i = 0, n = colliding_items.size();i<n;++i){
@@ -105,12 +112,72 @@ void Ball::move()
 }
 
         }
+        else if(typeid(*(colliding_items[i])) == typeid(Pocket) && pocketCounter == 0){
+            qDebug()<<"hit the pocket";
+            pocketCounter = 2;
+            double tmpX = vX;
+            double tmpY = vY;
+            Pocket *p = (Pocket*)colliding_items[i];
+            if (p->ID == 0){
+                vX = tmpY * 1.01;
+                vY = tmpX * 1.01;
+            }
+            else if(p->ID == 1){
+                vX = tmpY * 1.01;
+                vY = tmpX * 1.01;
+            }
+            else if(p->ID == 2){
+                vX = tmpY * -1.01;
+                vY = tmpX * -1.01;
+            }
+            else if(p->ID == 3){
+                vX = tmpY * -1.01;
+                vY = tmpX * -1.01;
+            }
+            else if(p->ID == 4){
+                vX = tmpY * 1.01;
+                vY = tmpX * 1.01;
+            }
+            else if(p->ID == 5){
+                vX = tmpY * 1.01;
+                vY = tmpX * 1.01;
+            }
+            else if(p->ID == 6){
+                vX = tmpY * -1.01;
+                vY = tmpX * -1.01;
+            }
+            else if(p->ID == 7){
+                vX = tmpY * -1.01;
+                vY = tmpX * -1.01;
+            }
+            else if(p->ID == 8){
+                vX = tmpY * -1.01;
+                vY = tmpX * -1.01;
+            }
+            else if(p->ID == 9){
+                vX = tmpY * 1.01;
+                vY = tmpX * 1.01;
+            }
+            else if(p->ID == 10){
+                vX = tmpY * -1.01;
+                vY = tmpX * -1.01;
+            }
+            else if(p->ID == 11){
+                vX = tmpY * 1.01;
+                vY = tmpX * 1.01;
+            }
+        }
+        else if(typeid(*(colliding_items[i])) == typeid(Holes)){
+            game->scene->removeItem(this);
+            inPocket = 1;
+            return;
+        }
     }
-    int edgeX = 25;
-    int edgeY1 = 41;
-    int edgeY2 = 18;
+    int edgeX = 8;
+    int edgeY1 = 33;
+    int edgeY2 = 8;
 
-    if (!(pos().y() > scene()->height() - 37 && pos().x() < 44))
+    if (pocketZone() == 0)
     {
         if (pos().y() > scene()->height() - 20 - edgeY2
                 || pos().y() < edgeY1)
@@ -178,4 +245,20 @@ double Ball::getAbs(double x)
     if (x<0)
         return -x;
     return x;
+}
+
+int Ball::pocketZone()
+{
+    if (x() + 10 < 26 && y() + 10 < 52)
+        return 1;
+    else if(x() + 10 < 26 && y() + 10 > 244)
+        return 1;
+    else if(x() + 10 > 453 && y() + 10 > 244)
+        return 1;
+    else if(x() + 10 > 453 && y() + 10 < 52)
+        return 1;
+    else if(x() + 10 > 223 && x() + 10 < 257)
+        return 1;
+    else
+        return 0;
 }

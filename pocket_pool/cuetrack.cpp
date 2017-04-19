@@ -52,7 +52,7 @@ void Cuetrack::timerHandler()
         }
         pre = cur;
         //rectangle(cam_img, cur[0], Point(cur[0].x + 5, cur[0].y + 5), Scalar(0, 0, 0), 2);
-        imshow("current", cam_img);
+        //imshow("current", cam_img);
         timer->start(33);
     }
 

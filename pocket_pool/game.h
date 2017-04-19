@@ -4,7 +4,9 @@
 #include <QGraphicsView>
 #include "ball.h"
 #include "table.h"
+#include "holes.h"
 #include "cuetrack.h"
+#include "pocket.h"
 #include <QVector>
 #include <QTimer>
 #include <QObject>
@@ -25,6 +27,8 @@ public:
     Cuetrack tracker;
     QList<QPair<int, int>> position;
     Table *table;
+    QVector<Pocket*> pockets;
+    QVector<Holes*> holes;
     int state;
 private:
     QTimer * timer;

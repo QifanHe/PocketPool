@@ -1,11 +1,15 @@
 #ifndef POCKET_H
 #define POCKET_H
 
+#include<QGraphicsPolygonItem>
+#include<QPolygonF>
 
-class Pocket
+class Pocket: public QGraphicsPolygonItem
 {
 public:
-    Pocket();
+    QPolygonF Triangle;
+    int ID;
+    Pocket(int num);
 };
 
 #endif // POCKET_H
